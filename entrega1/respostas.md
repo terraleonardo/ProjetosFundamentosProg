@@ -26,7 +26,7 @@
 ### 4. Expressões matemáticas com operadores de C:
 - a) preco_final = (preco_original * 0.1)
 
-- b) media_ponderada = ((n1*p1) + (n2*p2) + (n3*p3)) / (p1 + p2 + p3)
+- b) media_ponderada = ((n1 * p1) + (n2 * p2) + (n3 * p3)) / (p1 + p2 + p3)
 
 - c)
 
