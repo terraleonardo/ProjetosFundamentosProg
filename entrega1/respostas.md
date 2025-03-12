@@ -20,7 +20,7 @@
      Variáveis: `float qtdLitros`, `float precoLitro`, `valorFinal`.
 
 - c) Entrada: Sexo, data de nascimento, altura e peso do paciente. <br>
-     Saída: Idade baseada no cálculo da diferença entre a data do sistema quando o programa foi executado e a data fornecida pelo usuário(?). <br>
+     Saída: Nenhuma saída. Talvez a idade baseada no cálculo da diferença entre a data do sistema quando o programa foi executado e a data fornecida pelo usuário(?). <br>
      Variáveis: `String sexo` ("M" ou "F") ou `int sexo` (numeros identificadores de respectivos sexos), `date dataNascimento` (no formato da linguagem utilizada), `float altura` e `float peso`.
 
 ### 4. Expressões matemáticas com operadores de C:
