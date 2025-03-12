@@ -32,4 +32,4 @@
      Exemplo: `distancia_total = (2 * 12) + (3 * 18);` <br>
      Saída: `distancia_total = 78` (km/h).
 
-- d)
+- d) `y = (a*squrt(x)) + (b*x) + c`
