@@ -16,7 +16,7 @@ int main() {
     if(divisor == 0) {
         printf("O Divisor é igual a zero! Operação cancelada.\n");
     } else {
-        printf("%f / %f = %f", dividendo, divisor, resultado);
+        printf("%f / %f = %f\n", dividendo, divisor, resultado);
     }
 
     return 0;
