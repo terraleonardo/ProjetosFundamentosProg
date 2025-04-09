@@ -26,7 +26,7 @@ int main() {
         
         for(int i = 0; i < tamArray; i++) {
             printf("%s\n", dados[i]);
-            if(i == 0 || i == 1 || i == 5) { //CONFERIR AQUI
+            if(i == 0 || i == 1 || i == 5) { //CONFERIR LOGICA AQUI
                 scanf("%d", &dadosInt[i]);
             } else {
                 scanf("%lf", &dadosDouble[i]);
