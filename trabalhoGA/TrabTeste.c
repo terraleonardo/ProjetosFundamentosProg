@@ -46,7 +46,7 @@ int main() {
 
             printf("\nNumeros na variável dadosFloat:\n");
             for(int h = 0; h < 3; h++){
-                printf("[%d] %f\n", h, dadosFloat[h]); //CUIDAR O FORMAT SPECIFIER DO PRINTF (%f =/= %d)
+                printf("[%d] %f\n", h, dadosFloat[h]);
             }
 
 
