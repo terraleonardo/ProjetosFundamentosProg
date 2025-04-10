@@ -1,2 +1,2 @@
 ## ProjetosFundamentosProg
-Entregas da disciplina de Fundamentos de Algoritmos e Programação da UNISINOS, 2025/1.
+Entregas da disciplina de Fundamentos de Algoritmos e Programação da Unisinos, 2025/1.
