@@ -23,19 +23,32 @@ int main() {
 
         if(indexMenuInicial == 1) {
             char opcoesMenuSimulacao[6][64] = {"População total", "Nº de pessoas inicialmente infectadas", "Taxa de contágio", "Porcentagem da população infectada", "Efetividade da vacina", "Nº de dias da simulação"};
-            float dados[6];
+            int dadosInt[3] = {0, 0, 0};
+            float dadosFloat[3] = {0, 0, 0};
 
             printf("\nDigite os dados requisitados a seguir:\n");
             for(int i = 0; i < sizeof(opcoesMenuSimulacao) / sizeof(opcoesMenuSimulacao[0]); i++) {
 
-                printf("%s: ", opcoesMenuSimulacao[i]);
-                scanf("%f", &dados[i]);
+                if(i==0 || i==1 || i==5) {
+                    printf("%s: ", opcoesMenuSimulacao[i]);
+                    scanf("%d", &dadosInt[i]);
+                    
+                } else if(i==2 || i==3 || i==4) {
+                    printf("%s: ", opcoesMenuSimulacao[i]);
+                    scanf("%f", &dadosFloat[i]);
+                }
             }
 
-            printf("\nNumeros na variável dados:\n");
-            for(int j = 0; j < 6; j++){
-                printf("%f\n", dados[j]); //CUIDAR O FORMAT SPECIFIER DO PRINTF (%f =/= %d)
+            printf("\nNumeros na variável dadosInt:\n");
+            for(int j = 0; j < 3; j++){
+                printf("[%d] %d\n", j, dadosInt[j]); //CUIDAR O FORMAT SPECIFIER DO PRINTF (%f =/= %d)
             }
+
+            printf("\nNumeros na variável dadosFloat:\n");
+            for(int h = 0; h < 3; h++){
+                printf("[%d] %f\n", h, dadosFloat[h]); //CUIDAR O FORMAT SPECIFIER DO PRINTF (%f =/= %d)
+            }
+
 
         } else if(indexMenuInicial == 2) {
             printf("Até logo!");
