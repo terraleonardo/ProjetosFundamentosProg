@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 // void printaMenu(char opcoes[]) {
 //     printf("Digite a opção desejada:");
@@ -29,9 +30,9 @@ int main() {
             char opcoesMenuSimulacao[6][64] = {
                 "População total", 
                 "Nº de pessoas inicialmente infectadas", 
-                "Taxa de contágio", 
-                "Porcentagem da população vacinada", 
-                "Efetividade da vacina", 
+                "Taxa de contágio (%)", 
+                "Porcentagem da população vacinada (%)", 
+                "Efetividade da vacina (%)", 
                 "Nº de dias da simulação"
             };
             
