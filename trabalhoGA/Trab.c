@@ -80,11 +80,11 @@ int main() {
 
             for(int i = 1; i <= diasSimulacao; i++) {
                 if(i>1) {
-
                     int numero = sortearNumero(); // AJUSTAR PARA SORTEAR NUMERO DIFERENTE A CADA INSTANCIA DO LOOP
                     int evento;
 
                     char *nomeEvento = malloc(32);
+
 
                     if(numero > 0 && numero <= 15) {
                         evento = 25;
