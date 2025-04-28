@@ -7,6 +7,10 @@ void esperarPorTecla() {
     getchar();
 }
 
+int randomNumber(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
+
 int main() {
 
     // printf("a. Números inteiros do intervalo [0, 100]:\n");
@@ -60,7 +64,32 @@ int main() {
     // }
     // printf("Pares: %d\nÍmpares: %d", qtdPar, qtdImp);
 
-    
+    // printf("g. Números inteiros entre -10 e 10 acompanhados da mensagem “POSITIVO”, “NEGATIVO”, ou “NULO”, conforme o caso:\n");
+    // srand(time(0));
+    // for(int i = 0; i < 20; i++) {
+    //     int numero = randomNumber(-10, 10);
+    //     printf("%d ", numero);
+    //     if(numero > 0) {
+    //         printf("POSITIVO\n");
+    //     } else if(numero < 0) {
+    //         printf("NEGATIVO\n");
+    //     } else printf("NULO\n");
+    // }
+    // esperarPorTecla();
+
+    int qtdNum;
+    printf("Ler n números e imprimir no final a soma dos números lidos.\nDigite a quantidade de números que quer digitar: \n");
+    scanf("%d", &qtdNum);
+
+    float numerosH[qtdNum];
+    float soma = 0;
+
+    // Print pedindo para digitar os numeros
+    for(int i = 0; i < qtdNum; i++) {
+        scanf("%d", &numerosH[i]);
+        soma += numerosH[i];
+    }
+    printf("Soma dos números digitados: %f\n", soma);
 
     return 0;
 }
