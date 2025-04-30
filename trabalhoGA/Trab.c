@@ -12,43 +12,50 @@ int sortearNumero() { // Função de sorteio (Seed na linha 79 explicada)
     return (rand() % 100) + 1;
 }
 
+void verificaEvento(int evento, char *nomeEvento) {
+    if(evento != 0) {
+        printf(" (evento: %s)", nomeEvento);
+    }
+}
+
 int main() {
-    char opcoesMenuInicial[2][32] = {"Nova Simulação", "Sair do programa"}; // Array com opções do menu inicial
+    char opcoesMenuInicial[2][32] = {"Nova Simulacao", "Sair do programa"}; // Array com opções do menu inicial
     int indexMenuInicial; // Índices das opções do menu inicial
+    int suscetiveis, vacinados_saudaveis, nao_vacinados_saudaveis, novos_infectados, vacinados_infectados;
 
     do { // Repetição 'do while' (re)printa o menu inicial enquanto o usuário não digitar uma opção válida (ver linha 122)
-        printf("Digite a opção desejada:\n");
+        printf("Digite a opcao desejada:\n");
 
         for(int i = 0; i < sizeof(opcoesMenuInicial) / sizeof(opcoesMenuInicial[0]); i++) { // 'sizeof(opcoesMenuInicial) / sizeof(opcoesMenuInicial[0])' retorna tamanho do array
             printf("%d - %s\n", i+1, opcoesMenuInicial[i]);
         }
 
-        scanf("%d", &indexMenuInicial); 
+        scanf("%d", &indexMenuInicial);
 
         if(indexMenuInicial == 1) {
             char opcoesMenuSimulacao[6][64] = { // Array com opções do menu da simulação
-                "População total", 
-                "Nº de pessoas inicialmente infectadas", 
-                "Taxa de contágio (%)", 
-                "Porcentagem da população vacinada (%)", 
-                "Efetividade da vacina (%)", 
-                "Nº de dias da simulação"
+                "\nPopulacao total",
+                "\nNumero de pessoas inicialmente infectadas",
+                "\nTaxa de contagio (%)",
+                "\nTaxa da populacao vacinada (%)",
+                "\nEfetividade da vacina (%)",
+                "\nNumero de dias da simulacao"
             };
-            
+
             int dadosInt[3] = {0, 0, 0};
             float dadosFloat[3] = {0, 0, 0};
-            
+
             int intIndex = 0; // Índice para dadosInt
             int floatIndex = 0; // Índice para dadosFloat
 
             printf("\nDigite os dados requisitados a seguir:\n");
             for(int i = 0; i < sizeof(opcoesMenuSimulacao) / sizeof(opcoesMenuSimulacao[0]); i++) {
                 printf("%s: ", opcoesMenuSimulacao[i]);
-                
+
                 if(i == 0 || i == 1 || i == 5) { // Entradas inteiras
                     scanf("%d", &dadosInt[intIndex]);
                     intIndex++; // Aumenta índice do array de dados inteiros (dadosInt) para o próximo armazenamento
-                } 
+                }
                 else if(i == 2 || i == 3 || i == 4) { // Entradas float
                     scanf("%f", &dadosFloat[floatIndex]);
                     floatIndex++; // Aumenta índice do array de dados decimais (dadosFloat) para o próximo armazenamento
@@ -64,7 +71,7 @@ int main() {
 
             int infectados = dadosInt[1];
 
-            printf("Dia 1: %d infectados", infectados); // Primeiro print fora do loop da simulação pois não altera os dados iniciais
+            printf("\nDia 1: %d infectados", infectados); // Primeiro print fora do loop da simulação pois não altera os dados iniciais
 
             srand(time(NULL)); // GERAR A SEED AQUI, E NÃO DENTRO DO LOOP, FEZ COM QUE CADA DIA GERASSE UM EVENTO DIFERENTE (:D)
 
@@ -91,32 +98,53 @@ int main() {
                         evento = 0;
                     }
                     // Variáveis para os cálculos
-                    int novos_infectados = abs(inicialmenteInfectados * ((taxaContagio+evento)/100));
+                    novos_infectados = abs(inicialmenteInfectados * ((taxaContagio+evento)/100));
 
-                    int nao_vacinados_saudaveis = (populacaoTotal - inicialmenteInfectados) - (1-(porcentagemVacinada/100));
+                    vacinados_infectados = (populacaoTotal - ((populacaoTotal * (1-(porcentagemVacinada/100))) + vacinados_saudaveis));
 
-                    int vacinados_saudaveis = (populacaoTotal - inicialmenteInfectados)*(porcentagemVacinada/100);
+                    nao_vacinados_saudaveis = (populacaoTotal - inicialmenteInfectados) - (1-(porcentagemVacinada/100));
 
-                    int suscetiveis = nao_vacinados_saudaveis + vacinados_saudaveis * (1-(efetividadeVacina/100));
+                    vacinados_saudaveis = (populacaoTotal - inicialmenteInfectados)*(porcentagemVacinada/100);
 
-                    int novosInfectados = min(novos_infectados, suscetiveis);
+                    suscetiveis = nao_vacinados_saudaveis + vacinados_saudaveis * (1-(efetividadeVacina/100));
 
-                    infectados += novosInfectados;
+                    novos_infectados = min(novos_infectados, suscetiveis);
 
-                    if(evento == 0) {
-                        printf("\nDia %d: %d infectados (+%d)", i, infectados, novosInfectados);
-                    } else {
-                        printf("\nDia %d: %d infectados (+%d) (evento: %s)", i, infectados, novosInfectados, nomeEvento);
+                    if (infectados + novos_infectados > populacaoTotal) {
+                        novos_infectados = populacaoTotal - infectados;
                     }
 
-                    // FAZER IF PARA VER SE O Nº SUSCETIVEIS JA ATINGIRAM O Nº DE INFECTADOS
+                    infectados += novos_infectados;
+
+                    if (populacaoTotal <= infectados) {
+                        printf("\nDia %d: %d infectados (+%d)", i, populacaoTotal, novos_infectados);
+
+                        vacinados_infectados = vacinados_saudaveis;
+
+                        verificaEvento(evento, nomeEvento);
+
+                        printf("\nA populacao inteira foi infectada\n");
+                        break;
+                    }
+
+                    printf("\nDia %d: %d infectados (+%d)", i, infectados, novos_infectados);
+
+                    verificaEvento(evento, nomeEvento);
                 }
             }
 
+            printf("\nTotal de infectados: %d", infectados);
+
+            printf("\nPopulacao vacinada: %d", vacinados_saudaveis);
+
+            printf("\nVacinados infectados: %d", vacinados_infectados);
+
+            printf("\nPopulacao saudavel: %d", (populacaoTotal - infectados));
+
         } else if(indexMenuInicial == 2) {
-            printf("Até logo!");
+            printf("Ate logo!");
         } else {
-            printf("Opção inválida!\n");
+            printf("Opcao inválida!\n");
         }
 
     } while(indexMenuInicial != 2 && indexMenuInicial != 1);
