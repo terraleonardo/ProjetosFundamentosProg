@@ -19,6 +19,7 @@ void verificaEvento(int evento, char *nomeEvento) {
 }
 
 int main() {
+    //---------- MENU INICIAL + ENTRADA DE DADOS ----------
     char opcoesMenuInicial[2][32] = {"Nova Simulacao", "Sair do programa"}; // Array com opções do menu inicial
     int indexMenuInicial; // Índices das opções do menu inicial
     int suscetiveis, vacinados_saudaveis, nao_vacinados_saudaveis, novos_infectados, vacinados_infectados;
@@ -35,11 +36,11 @@ int main() {
         if(indexMenuInicial == 1) {
             char opcoesMenuSimulacao[6][64] = { // Array com opções do menu da simulação
                 "\nPopulacao total",
-                "\nNumero de pessoas inicialmente infectadas",
-                "\nTaxa de contagio (%)",
-                "\nTaxa da populacao vacinada (%)",
-                "\nEfetividade da vacina (%)",
-                "\nNumero de dias da simulacao"
+                "Numero de pessoas inicialmente infectadas",
+                "Taxa de contagio (%)",
+                "Taxa da populacao vacinada (%)",
+                "Efetividade da vacina (%)",
+                "Numero de dias da simulacao"
             };
 
             int dadosInt[3] = {0, 0, 0};
@@ -68,36 +69,38 @@ int main() {
             float porcentagemVacinada = dadosFloat[1];
             float efetividadeVacina = dadosFloat[2];
             int diasSimulacao = dadosInt[2];
-
             int infectados = dadosInt[1];
 
+
+
+            //---------- SIMULAÇÃO DE CRESCIMENTO ----------
             printf("\nDia 1: %d infectados", infectados); // Primeiro print fora do loop da simulação pois não altera os dados iniciais
 
             srand(time(NULL));
 
-            for(int i = 1; i <= diasSimulacao; i++) {
-                if(i>1) {
+            for(int i = 1; i <= diasSimulacao; i++) {   //repeticao para rodar todos os dias da simulacao até último dia digitado pelo usuario
+                if(i>1) {   //a partir do segundo dia é possivel ocorrer Condicoes Ambientais (eventos aleatorios)
                     int numero = sortearNumero();
                     int evento;
 
-                    char *nomeEvento = malloc(32);
+                    char *nomeEvento = malloc(32);  //variavel para nome do evento aleatorio
 
                     if(numero > 0 && numero <= 15) { // Seletor de evento aleatório
-                        evento = 25;
-                        strcpy(nomeEvento, "Aglomeracao!");
+                        evento = 25;                //efeito na taxa de contagio para cada evento da tabela do item 4
+                        strcpy(nomeEvento, "Aglomeracao!"); //adiciona qual evento aleatorio ocorreu na variavel de nome do evento
                     } else if(numero > 15 && numero <= 25) {
-                        evento = -20;
+                        evento = -20;                
                         strcpy(nomeEvento, "Isolamento voluntario!");
-                    } else if(numero > 25 && numero <= 30) {
-                        evento = -30;
-                        strcpy(nomeEvento, "Midia gera alerta!");
+                    } else if(numero > 25 && numero <= 30) {    
+                        evento = -30;                
+                        strcpy(nomeEvento, "Midia gera alerta!");   
                     } else if(numero > 30 && numero <= 35) {
-                        evento = 50;
-                        strcpy(nomeEvento, "Mutacao mais contagiosa!");
+                        evento = 50;                
+                        strcpy(nomeEvento, "Mutacao mais contagiosa!"); 
                     } else {
-                        evento = 0;
+                        evento = 0;                
                     }
-                    // Variáveis para os cálculos
+                    // Variáveis para os cálculos da simulacao de crescimento
                     novos_infectados = abs(inicialmenteInfectados * ((taxaContagio+evento)/100));
 
                     vacinados_infectados = (populacaoTotal - ((populacaoTotal * (1-(porcentagemVacinada/100))) + vacinados_saudaveis));
@@ -114,26 +117,28 @@ int main() {
                         novos_infectados = populacaoTotal - infectados;
                     }
 
-                    infectados += novos_infectados;
+                    infectados += novos_infectados; //incrementa o valor de infectados
 
                     if (populacaoTotal <= infectados) { // Verificação para quando toda a população for infectada
                         printf("\nDia %d: %d infectados (+%d)", i, populacaoTotal, novos_infectados);
 
-                        vacinados_infectados = vacinados_saudaveis;
+                        vacinados_infectados = vacinados_saudaveis; //caso todos forem infectados, todos vacinados foram infectados tambem
 
-                        verificaEvento(evento, nomeEvento);
+                        verificaEvento(evento, nomeEvento); //chamada de funcao para verificar evento
 
-                        printf("\nA populacao inteira foi infectada\n");
+                        printf("\nA populacao inteira foi infectada\n");    //imprime na tela a mensagem de resultado
                         break;
                     }
 
-                    printf("\nDia %d: %d infectados (+%d)", i, infectados, novos_infectados);
+                    printf("\nDia %d: %d infectados (+%d)", i, infectados, novos_infectados);   //mensagem de resultado da simulacao na tela
 
                     verificaEvento(evento, nomeEvento);
                 }
             }
 
-            printf("\nTotal de infectados: %d", infectados);
+
+            //---------- EXIBIÇÃO DE RESULTADOS ----------
+            printf("\n\nTotal de infectados: %d", infectados);
 
             printf("\nPopulacao vacinada: %d", vacinados_saudaveis);
 
@@ -141,6 +146,8 @@ int main() {
 
             printf("\nPopulacao saudavel: %d", (populacaoTotal - infectados));
 
+
+        //---------- VALIDAÇAO DO MENU INICIAL  ----------
         } else if(indexMenuInicial == 2) {
             printf("Ate logo!");
         } else {
