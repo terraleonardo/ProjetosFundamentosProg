@@ -4,11 +4,11 @@
 #include <math.h>
 #include <time.h>
 
-int min(int a, int b) { // Função minimo
+int min(int a, int b) { // Função menor entre 'a' e 'b'
     return (a < b) ? a : b;
 }
 
-int sortearNumero() { // Função de sorteio (Seed na linha 79 explicada)
+int sortearNumero() { // Função de sorteio
     return (rand() % 100) + 1;
 }
 
@@ -23,7 +23,7 @@ int main() {
     int indexMenuInicial; // Índices das opções do menu inicial
     int suscetiveis, vacinados_saudaveis, nao_vacinados_saudaveis, novos_infectados, vacinados_infectados;
 
-    do { // Repetição 'do while' (re)printa o menu inicial enquanto o usuário não digitar uma opção válida (ver linha 122)
+    do { // Repetição 'do while' (re)printa o menu inicial enquanto o usuário não digitar uma opção válida
         printf("Digite a opcao desejada:\n");
 
         for(int i = 0; i < sizeof(opcoesMenuInicial) / sizeof(opcoesMenuInicial[0]); i++) { // 'sizeof(opcoesMenuInicial) / sizeof(opcoesMenuInicial[0])' retorna tamanho do array
@@ -61,7 +61,7 @@ int main() {
                     floatIndex++; // Aumenta índice do array de dados decimais (dadosFloat) para o próximo armazenamento
                 }
             }
-            // Populando as variáveis com seus respectivos dados, obtidos das entradas do usuário (FALTA FAZER VALIDAÇÃO DE TIPO DAS ENTRADAS)
+            // Populando as variáveis com seus respectivos dados, obtidos das entradas do usuário
             int populacaoTotal = dadosInt[0];
             int inicialmenteInfectados = dadosInt[1];
             float taxaContagio = dadosFloat[0];
@@ -73,11 +73,11 @@ int main() {
 
             printf("\nDia 1: %d infectados", infectados); // Primeiro print fora do loop da simulação pois não altera os dados iniciais
 
-            srand(time(NULL)); // GERAR A SEED AQUI, E NÃO DENTRO DO LOOP, FEZ COM QUE CADA DIA GERASSE UM EVENTO DIFERENTE (:D)
+            srand(time(NULL));
 
             for(int i = 1; i <= diasSimulacao; i++) {
                 if(i>1) {
-                    int numero = sortearNumero(); // [RESOLVIDO, VER LINHA 69] AJUSTAR PARA SORTEAR NUMERO DIFERENTE A CADA INSTANCIA DO LOOP
+                    int numero = sortearNumero();
                     int evento;
 
                     char *nomeEvento = malloc(32);
@@ -110,13 +110,13 @@ int main() {
 
                     novos_infectados = min(novos_infectados, suscetiveis);
 
-                    if (infectados + novos_infectados > populacaoTotal) {
+                    if (infectados + novos_infectados > populacaoTotal) { // Verificação para quando o total de infectados ultrapassar a população total
                         novos_infectados = populacaoTotal - infectados;
                     }
 
                     infectados += novos_infectados;
 
-                    if (populacaoTotal <= infectados) {
+                    if (populacaoTotal <= infectados) { // Verificação para quando toda a população for infectada
                         printf("\nDia %d: %d infectados (+%d)", i, populacaoTotal, novos_infectados);
 
                         vacinados_infectados = vacinados_saudaveis;
