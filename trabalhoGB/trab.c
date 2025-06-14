@@ -16,6 +16,10 @@ typedef struct { // Definindo struct Personagem
     bool habilidade_ativa;
 } Personagem;
 
+typedef struct {
+    Personagem equipe[5];
+} Equipe
+
 Personagem personagem(char classe[16], int ataque, int defesa) { // Definindo construtor de Personagem
     Personagem p;
     strcpy(p.classe, classe);
@@ -40,20 +44,27 @@ int sorteiaPrimeiro() {
 }
 
 int main() {
+    
     srand(time(NULL)); // Inicializando seed da função random
     
     #define TAMANHO_EQUIPE 5
-
+    
     Personagem equipe1[TAMANHO_EQUIPE];
     Personagem equipe2[TAMANHO_EQUIPE];
-
+    
     inicializaEquipe(equipe1);
     inicializaEquipe(equipe2);
 
-    // for(int i=0; i<TAMANHO_EQUIPE; i++) { // TESTANDO SE TODAS AS CLASSES FORAM CRIADAS
-    //     printf("\n%s\nHP:%d ATK:%d DEF:%d HAB_BOOL:%d\n", equipe1[i].classe, equipe1[i].vida, equipe1[i].ataque, equipe1[i].defesa, equipe1[i].habilidade_ativa);
-    // }
-    // printf("\n");
+    int timeAtacante = 1; // Flag que alterna a cada jogada de um dos lados para exibir qual time está atacando.
+
+    for(int i = 0;) {
+
+    }
+
+    /* for(int i=0; i<TAMANHO_EQUIPE; i++) { // TESTANDO SE TODAS AS CLASSES FORAM CRIADAS
+        printf("\n%s\nHP:%d ATK:%d DEF:%d HAB_BOOL:%d\n", equipe1[i].classe, equipe1[i].vida, equipe1[i].ataque, equipe1[i].defesa, equipe1[i].habilidade_ativa);
+    }
+    printf("\n"); */
 
     return 0;
 }
