@@ -61,11 +61,13 @@ int main() {
     printf("\n\nVetor em ordem inversa: "); // g. Imprimir o vetor em ordem inversa
     for(int i = tamanhoV-1; i >= 0; i--) {
         printf("%d ", v[i]);
+        vInverso[abs(i-4)] = v[i]; // h. Copiar os elementos em ordem inversa para outro vetor
     }
 
     printf("\n\nVetor inverso: ");
     for(int i = 0; i < tamanhoV; i++) {
         printf("%d ", vInverso[i]);
+
     }
 
     printf("\n");
