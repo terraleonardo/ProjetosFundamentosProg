@@ -18,7 +18,7 @@ typedef struct { // Definindo struct Personagem
 
 typedef struct {
     Personagem equipe[5];
-} Equipe
+} Equipe;
 
 Personagem personagem(char classe[16], int ataque, int defesa) { // Definindo construtor de Personagem
     Personagem p;
@@ -43,6 +43,163 @@ int sorteiaPrimeiro() {
     return randomInt(1, 2);
 }
 
+bool timeVivo(Personagem equipe[]) {   //Testando se o o time está vivo
+    for (int i = 0; i < 5; i++) {
+        if (equipe[i].vida > 0)
+            return true;
+    }
+    return false;
+}
+
+int selecionaAtacante(Personagem equipe[]){
+    int idSelecionado = -1;
+    float maiorRazao = -1;
+
+    for (int i = 0; i < 5; i++) {
+        if (equipe[i].vida >0){
+            float razao = (float)equipe[i].vida / equipe[i].ataque;
+            if (razao > maiorRazao){
+                maiorRazao = razao;
+                idSelecionado = i;
+            }
+        }
+    }
+
+    return idSelecionado;
+}
+
+int selecionaAlvo(){
+    int idSelecionado = randomInt(0,4);
+    return idSelecionado;
+}
+
+
+
+bool verificarErroAtaque(){     //verifica chance 20% erro ataque
+
+    int chance = randomInt(0,100);
+    if (chance <= 20) return true;
+    return false;
+}
+
+bool verificarFalhaDefesa(){     //verifica chance 20% falha defesa
+
+    int chance = randomInt(0,100);
+    if (chance <= 20) return true;
+    return false;
+}
+
+void chanceHabilidadeAtacante(Personagem *atacante, int idxAtacante){
+
+    int chance = randomInt(0,100);
+
+    switch (idxAtacante)
+    {
+    case 0:     //guerreiro - somente ataque
+        if (chance <= 20) {
+            atacante->habilidade_ativa = 1;
+        }
+        break;
+
+    case 1:     //mago - somente ataque
+        if (chance > 20 && chance <=45) {
+            atacante->habilidade_ativa = 1;
+        }
+        break;
+
+    case 2:     //caçador - somente ataque
+        if (chance > 45 && chance <=60) {
+            atacante->habilidade_ativa = 1;
+        }
+        break;
+
+    case 3:     //paladino - somente defesa
+        atacante->habilidade_ativa = 0;
+        break;
+
+    case 4:     //barbaro - somente ataque
+        atacante->habilidade_ativa = 1;
+        break;
+    
+    default:
+        break;
+    }
+
+}
+
+void aplicarHabilidadeEspecialAtacante(Personagem *atacante, Personagem *defensor, int idxAtacante, int idxAlvo){
+    int dano =0;
+    switch (idxAtacante)
+    {
+    case 0:     //guerreiro - dano dobrado
+        dano = 2*(atacante->ataque  - defensor->defesa);
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+        if (defensor->vida < 0) defensor->vida =0;
+        break;
+
+    case 1:     //mago - ignora defesa
+        dano = atacante->ataque;
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+        if (defensor->vida < 0) defensor->vida =0;
+        break;
+
+    case 2:     //caçador - ataca duas vezes
+        dano = atacante->ataque  - defensor->defesa;
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+
+        dano = atacante->ataque  - defensor->defesa;
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+
+        if (defensor->vida < 0) defensor->vida =0;
+        break;
+
+    case 3:     //paladino - somente defesa - aplica ataque normalmente
+        dano = atacante->ataque  - defensor->defesa;
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+         printf("%s atacou %s causando %d de dano. Vida restante do defensor: %d\n",
+           atacante->classe, defensor->classe, dano, defensor->vida);
+        break;
+
+    case 4:     //barbaro - somente ataque
+        dano = atacante->ataque  - defensor->defesa;
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+        break;
+    
+    default:
+        break;
+    }
+
+}
+
+
+
+void ataque(Personagem *atacante, Personagem *defensor, int idxAtacante, int idxAlvo){
+
+    int chanceErroAtaque = verificarErroAtaque();
+    chanceHabilidadeAtacante(atacante, idxAtacante);        //testa se a habilidade especial vai ser ativada do atacante
+
+    if (atacante->habilidade_ativa && !chanceErroAtaque) {
+        aplicarHabilidadeEspecialAtacante(atacante, defensor, idxAtacante, idxAlvo);    //o ataque sera nessa funcao caso tenha habilidade especial
+        
+    } else if (!chanceErroAtaque){     // o ataque sera normalmente caso nao tenha habilidade especial
+        int dano = atacante->ataque  - defensor->defesa;
+        if (dano <0) dano =0;
+        defensor->vida -= dano;
+        if (defensor->vida < 0) defensor->vida =0;
+         printf("%s atacou %s causando %d de dano. Vida restante do defensor: %d\n",
+           atacante->classe, defensor->classe, dano, defensor->vida);
+    }
+
+    
+    //aplicar a funcao de zerar habilidade especial no final do ataque
+}
+
 int main() {
     
     srand(time(NULL)); // Inicializando seed da função random
@@ -55,11 +212,30 @@ int main() {
     inicializaEquipe(equipe1);
     inicializaEquipe(equipe2);
 
-    int timeAtacante = 1; // Flag que alterna a cada jogada de um dos lados para exibir qual time está atacando.
+    int timeAtacante = sorteiaPrimeiro(); // Flag que alterna a cada jogada de um dos lados para exibir qual time está atacando.
 
-    for(int i = 0;) {
+    while (timeVivo(equipe1) && timeVivo(equipe2)) {    //enquanto as duas equipes estiverem vivas
 
+        Personagem *timeAtual = (timeAtacante == 1) ? equipe1 : equipe2;       
+        Personagem *timeInimigo = (timeAtacante == 1) ? equipe2 : equipe1;
+
+        int idxAtacante = selecionaAtacante(timeAtual);
+        int idxAlvo = selecionaAlvo();
+
+        ataque(&timeAtual[idxAtacante], &timeInimigo[idxAlvo], idxAtacante, idxAlvo);
     }
+
+    /*
+    Grasi: falta fazer logica da habilidade do barbaro + logica da chance de falha da defesa 
+    */
+
+
+
+
+
+    //for(int i = 0;) {
+
+    //}
 
     /* for(int i=0; i<TAMANHO_EQUIPE; i++) { // TESTANDO SE TODAS AS CLASSES FORAM CRIADAS
         printf("\n%s\nHP:%d ATK:%d DEF:%d HAB_BOOL:%d\n", equipe1[i].classe, equipe1[i].vida, equipe1[i].ataque, equipe1[i].defesa, equipe1[i].habilidade_ativa);
