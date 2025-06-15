@@ -120,7 +120,7 @@ void chanceHabilidadeAtacante(Personagem *atacante, int idxAtacante){
     case 4:     //barbaro - somente ataque
         atacante->habilidade_ativa = 1;
         break;
-    
+
     default:
         break;
     }
@@ -157,20 +157,37 @@ void aplicarHabilidadeEspecialAtacante(Personagem *atacante, Personagem *defenso
         if (defensor->vida < 0) defensor->vida =0;
         break;
 
-    case 3:     //paladino - somente defesa - aplica ataque normalmente
-        dano = atacante->ataque  - defensor->defesa;
-        if (dano <0) dano =0;
-        defensor->vida -= dano;
-         printf("%s atacou %s causando %d de dano. Vida restante do defensor: %d\n",
-           atacante->classe, defensor->classe, dano, defensor->vida);
-        break;
+        case 3:     // paladino - ataque normal + chance de regeneração
+
+            dano = atacante->ataque - defensor->defesa;
+            if (dano < 0) dano = 0;
+            defensor->vida -= dano;
+            if (defensor->vida < 0) defensor->vida = 0;
+
+            printf("%s atacou %s causando %d de dano. Vida restante do defensor: %d\n",
+                atacante->classe, defensor->classe, dano, defensor->vida);
+
+
+            if (defensor->vida > 0) { // Paladino sobrevive, então a habilidade é testada
+                int chance = randomInt(0, 100);
+                if (chance < 30) {
+                    int vida_perdida = 100 - defensor->vida;
+                    int vida_regenerada = vida_perdida * 20 / 100;
+                    defensor->vida += vida_regenerada;
+                    if (defensor->vida > 100)
+                        defensor->vida = 100;
+                    printf("%s regenerou %d de vida! Vida atual: %d\n",
+                           defensor->classe, vida_regenerada, defensor->vida);
+                }
+            break;
+        }
 
     case 4:     //barbaro - somente ataque
         dano = atacante->ataque  - defensor->defesa;
         if (dano <0) dano =0;
         defensor->vida -= dano;
         break;
-    
+
     default:
         break;
     }
@@ -191,7 +208,7 @@ void ataque(Personagem *atacante, Personagem *defensor, int idxAtacante, int idx
 
     if (atacante->habilidade_ativa && !chanceErroAtaque) {
         aplicarHabilidadeEspecialAtacante(atacante, defensor, idxAtacante, idxAlvo);    //o ataque sera nessa funcao caso tenha habilidade especial
-        
+
     } else if (!chanceErroAtaque){     // o ataque sera normalmente caso nao tenha habilidade especial
         int dano = atacante->ataque  - defensor->defesa;
         if (dano <0) dano =0;
@@ -201,19 +218,19 @@ void ataque(Personagem *atacante, Personagem *defensor, int idxAtacante, int idx
            atacante->classe, defensor->classe, dano, defensor->vida);
     }
 
-    
+
     //aplicar a funcao de zerar habilidade especial no final do ataque
 }
 
 int main() {
-    
+
     srand(time(NULL)); // Inicializando seed da função random
-    
+
     #define TAMANHO_EQUIPE 5
-    
+
     Personagem equipe1[TAMANHO_EQUIPE];
     Personagem equipe2[TAMANHO_EQUIPE];
-    
+
     inicializaEquipe(equipe1);
     inicializaEquipe(equipe2);
 
@@ -221,7 +238,7 @@ int main() {
 
     while (timeVivo(equipe1) && timeVivo(equipe2)) {    //enquanto as duas equipes estiverem vivas
 
-        Personagem *timeAtual = (timeAtacante == 1) ? equipe1 : equipe2;       
+        Personagem *timeAtual = (timeAtacante == 1) ? equipe1 : equipe2;
         Personagem *timeInimigo = (timeAtacante == 1) ? equipe2 : equipe1;
 
         int idxAtacante = selecionaAtacante(timeAtual);
@@ -231,7 +248,7 @@ int main() {
     }
 
     /*
-    Grasi: falta fazer logica da habilidade do barbaro + logica da chance de falha da defesa 
+    Grasi: falta fazer logica da habilidade do barbaro + logica da chance de falha da defesa
     */
 
 
