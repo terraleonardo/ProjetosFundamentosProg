@@ -182,6 +182,11 @@ void aplicarHabilidadeEspecialAtacante(Personagem *atacante, Personagem *defenso
 void ataque(Personagem *atacante, Personagem *defensor, int idxAtacante, int idxAlvo){
 
     int chanceErroAtaque = verificarErroAtaque();
+
+    if (idxAtacante == 4) { // Bárbaro ignora falha no ataque
+        chanceErroAtaque = 0; // força ataque sem erro
+    }
+
     chanceHabilidadeAtacante(atacante, idxAtacante);        //testa se a habilidade especial vai ser ativada do atacante
 
     if (atacante->habilidade_ativa && !chanceErroAtaque) {
