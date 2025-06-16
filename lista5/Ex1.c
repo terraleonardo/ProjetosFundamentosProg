@@ -7,13 +7,19 @@ int randomInt(int min, int max) {
     return min + rand() % (max - min + 1);
 }
 
+void printaArray(int array[], int tamanhoArray) {
+    for(int i = 0; i < tamanhoArray; i++) {
+        printf("%d ", array[i]);
+    }
+}
+
 int main() {
     
     srand(time(NULL));
 
-    int v[5];
+    int v[10];
     int tamanhoV = (sizeof(v) / sizeof(v[0]));
-    int soma;
+    int soma = 0;
     int produto = 1;
 
     bool tem50 = false;
@@ -57,17 +63,42 @@ int main() {
 
     printf("\n\nSoma acumulada dos elementos do vetor: %d\nProduto acumulado dos elementos do vetor: %d", soma, produto); // f. Imprimir a soma e o produto acumulado dos valores dos elementos do vetor
 
-    int vInverso[5];
+    int vInverso[tamanhoV];
     printf("\n\nVetor em ordem inversa: "); // g. Imprimir o vetor em ordem inversa
     for(int i = tamanhoV-1; i >= 0; i--) {
         printf("%d ", v[i]);
-        vInverso[abs(i-4)] = v[i]; // h. Copiar os elementos em ordem inversa para outro vetor
+        vInverso[abs(i-(tamanhoV-1))] = v[i]; // h. Copiar os elementos em ordem inversa para outro vetor
     }
 
-    printf("\n\nVetor inverso: ");
+    printf("\n\nCópia do vetor em ordem inversa: ");
     for(int i = 0; i < tamanhoV; i++) {
         printf("%d ", vInverso[i]);
 
+    }
+
+    int vPares[10];
+    int vImpares[10];
+    int idxPares = 0; // Índice do vetor cópia - incrementa a cada cópia feita
+    int idxImpares = 0; // Índice do vetor cópia - incrementa a cada cópia feita
+
+    for(int i = 0; i < tamanhoV; i++) {
+        if((v[i] % 2) == 0) {
+            vPares[idxPares] = v[i];
+            idxPares++;
+        } else {
+            vImpares[idxImpares] = v[i];
+            idxImpares++;
+        }
+    }
+
+    printf("\n\nVetor par: ");
+    for(int i = 0; i< tamanhoV; i++) {
+        printf("%d ", vPares[i]);
+    }
+
+    printf("\nVetor ímpar: ");
+    for(int i = 0; i< tamanhoV; i++) {
+        printf("%d ", vImpares[i]);
     }
 
     printf("\n");
