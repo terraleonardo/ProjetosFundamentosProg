@@ -7,12 +7,6 @@ int randomInt(int min, int max) {
     return min + rand() % (max - min + 1);
 }
 
-void printaArray(int array[], int tamanhoArray) {
-    for(int i = 0; i < tamanhoArray; i++) {
-        printf("%d ", array[i]);
-    }
-}
-
 int main() {
     
     srand(time(NULL));
@@ -92,12 +86,12 @@ int main() {
     }
 
     printf("\n\nVetor par: ");
-    for(int i = 0; i< tamanhoV; i++) {
+    for(int i = 0; i< idxPares; i++) {
         printf("%d ", vPares[i]);
     }
 
     printf("\nVetor ímpar: ");
-    for(int i = 0; i< tamanhoV; i++) {
+    for(int i = 0; i< idxImpares; i++) {
         printf("%d ", vImpares[i]);
     }
 
