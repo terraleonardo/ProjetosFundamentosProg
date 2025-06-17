@@ -11,7 +11,7 @@ int main() {
     }
 
     for(int i = 0; i < tamanhoV; i++) {
-        printf("%d ", v[i]*i);
+        printf("\n%d x %d = %d", v[i], i, v[i]*i);
     }
 
     return 0;

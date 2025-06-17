@@ -34,8 +34,8 @@ int main() {
         }
     }
 
-    printf("\nConsumo total no mês: %d", consumoTotalMes);
-    printf("\nMédia de consumo por dia no mês: %.2f", ((float)consumoTotalMes / TOTAL_DIAS));
+    printf("\nConsumo total no mês: %d L", consumoTotalMes);
+    printf("\nMédia de consumo por dia no mês: %.2f L", ((float)consumoTotalMes / TOTAL_DIAS));
     printf("\nDia de maior consumo: %d (%d L)\nDia de menor consumo: %d (%d L)", diaMaiorConsumo, maiorConsumo, diaMenorConsumo, menorConsumo);
 
     printf("\n");
