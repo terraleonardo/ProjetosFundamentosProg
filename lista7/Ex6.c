@@ -35,7 +35,7 @@ char ExibirMenu() {
 
 void abrirCaixa(int itens[3]) { // cada índice corresponde a um nível de raridade
     printf("\nAbrindo caixa...");
-    printf("\n");
+    printf("\n"); // Se não quebrar a linha ele só mostra a mensagem depois do delay por algum motivo
     delay(2); // Delay pra dar emoção
 
     int noSorteado = randomInt(1, 100);
